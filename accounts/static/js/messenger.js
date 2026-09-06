@@ -441,11 +441,16 @@ function updateChatAvatar(pictureUrl, name) {
 
 function installImageFallbacks() {
     document.querySelectorAll('img[data-fallback]').forEach(image => {
-        image.addEventListener('error', () => {
+        const replaceWithFallback = () => {
             const fallback = document.createElement('span');
             fallback.textContent = image.dataset.fallback;
             image.replaceWith(fallback);
-        }, { once: true });
+        };
+
+        image.addEventListener('error', replaceWithFallback, { once: true });
+        if (image.complete && image.naturalWidth === 0) {
+            replaceWithFallback();
+        }
     });
 }
 
