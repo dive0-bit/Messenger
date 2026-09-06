@@ -195,6 +195,8 @@ function renderConversationsList(conversations) {
         row.appendChild(deleteButton);
         listContainer.appendChild(row);
     });
+
+    installImageFallbacks();
 }
 
 /**
@@ -430,10 +432,21 @@ function updateChatSubtitle(text) {
 function updateChatAvatar(pictureUrl, name) {
     const avatar = document.querySelector('#chat-avatar');
     if (pictureUrl) {
-        avatar.innerHTML = `<img src="${pictureUrl}" alt="">`;
+        avatar.innerHTML = `<img src="${pictureUrl}" alt="${name} profile picture" data-fallback="${name[0].toUpperCase()}">`;
+        installImageFallbacks();
     } else {
         avatar.textContent = name[0].toUpperCase();
     }
+}
+
+function installImageFallbacks() {
+    document.querySelectorAll('img[data-fallback]').forEach(image => {
+        image.addEventListener('error', () => {
+            const fallback = document.createElement('span');
+            fallback.textContent = image.dataset.fallback;
+            image.replaceWith(fallback);
+        }, { once: true });
+    });
 }
 
 /**
@@ -505,6 +518,8 @@ document.addEventListener('DOMContentLoaded', () => {
     loadAndRenderConversations().catch(error => {
         showError('Failed to load conversations: ' + error.message);
     });
+
+    installImageFallbacks();
     
     // Request notification permission
     requestNotificationPermission();

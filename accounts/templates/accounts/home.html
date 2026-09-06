@@ -13,7 +13,7 @@
     <div class="app">
         <aside>
             <header class="brand"><p class="eyebrow">Private messages</p><h1>Messenger</h1></header>
-            <div class="user-card"><div class="avatar">{% if profile.profile_picture %}<img src="{{ profile.profile_picture.url }}" alt="{{ request.user.username }} profile picture">{% else %}{{ request.user.username|first|upper }}{% endif %}</div><div><p class="user-name">{{ request.user.username }}</p><p class="status">Signed in</p></div></div>
+            <div class="user-card"><div class="avatar">{% if profile.profile_picture %}<img src="{{ profile.profile_picture.url }}" alt="{{ request.user.username }} profile picture" data-fallback="{{ request.user.username|first|upper }}">{% else %}{{ request.user.username|first|upper }}{% endif %}</div><div><p class="user-name">{{ request.user.username }}</p><p class="status">Signed in</p></div></div>
             <form class="profile-form" method="post" action="{% url 'profile_update' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="file" name="profile_picture" accept="image/*">
@@ -23,7 +23,7 @@
             <p class="section-label">People</p>
             <div class="list" id="people-list">
                 {% for person in chat_users %}
-                    <button class="person" data-user-id="{{ person.id }}" data-username="{{ person.username }}" data-picture="{{ person.profile_picture_url }}"><span class="mini-avatar">{% if person.profile_picture_url %}<img src="{{ person.profile_picture_url }}" alt="">{% else %}{{ person.username|first|upper }}{% endif %}</span><span>{{ person.username }}</span></button>
+                    <button class="person" data-user-id="{{ person.id }}" data-username="{{ person.username }}" data-picture="{{ person.profile_picture_url }}"><span class="mini-avatar">{% if person.profile_picture_url %}<img src="{{ person.profile_picture_url }}" alt="{{ person.username }} profile picture" data-fallback="{{ person.username|first|upper }}">{% else %}{{ person.username|first|upper }}{% endif %}</span><span>{{ person.username }}</span></button>
                 {% empty %}<p class="status" style="padding: 12px;">Register another account to start chatting.</p>{% endfor %}
             </div>
             <p class="section-label">Your conversations</p>

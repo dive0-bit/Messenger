@@ -9,6 +9,8 @@ services:
         generateValue: true
       - key: DEBUG
         value: "False"
+      - key: USE_REDIS
+        value: "False"
       - key: DJANGO_ALLOWED_HOSTS
         value: ".onrender.com"
       - key: CSRF_TRUSTED_ORIGINS

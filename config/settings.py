@@ -96,8 +96,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
 
 REDIS_URL = os.getenv('REDIS_URL')
+USE_REDIS = os.getenv('USE_REDIS', 'False').lower() == 'true'
 
-if REDIS_URL:
+if USE_REDIS and REDIS_URL:
     CHANNEL_LAYERS = {
         'default': {
             'BACKEND': 'channels_redis.core.RedisChannelLayer',
