@@ -180,6 +180,18 @@ body {
     font-size: 20px;
 }
 
+.auth-actions {
+    display: grid;
+    gap: 16px;
+    margin-top: 4px;
+}
+
+.auth-actions > a {
+    justify-self: end;
+    color: var(--accent-dark);
+    font: 700 12px Arial, sans-serif;
+}
+
 .auth-switch {
     margin-top: 24px;
     color: var(--muted);

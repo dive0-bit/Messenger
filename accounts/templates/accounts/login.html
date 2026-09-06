@@ -1,35 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in | Messenger</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
-    <h1>Login</h1>
+    <main class="auth-shell">
+        <section class="auth-intro">
+            <p class="eyebrow">Private messages</p>
+            <h1>Good conversations, right where you left them.</h1>
+            <p class="auth-intro-text">Sign in to pick up the thread and stay close to your people.</p>
+            <div class="auth-mark" aria-hidden="true">M</div>
+        </section>
 
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
+        <section class="auth-panel" aria-labelledby="login-title">
+            <div class="auth-heading">
+                <p class="auth-kicker">Welcome back</p>
+                <h2 id="login-title">Sign in to Messenger</h2>
+                <p>Your conversations are waiting for you.</p>
+            </div>
 
-    <form method="POST">
+            {% if error %}
+                <p class="form-error" role="alert">{{ error }}</p>
+            {% endif %}
 
-        {% csrf_token %}
+            <form class="auth-form" method="POST">
+                {% csrf_token %}
 
-        <label>Username or email:</label>
-        <input type="text" name="username" autocomplete="username" required>
+                <div class="field-group">
+                    <label for="username">Username or email</label>
+                    <input id="username" type="text" name="username" autocomplete="username" required>
+                </div>
 
-        <br><br>
+                <div class="field-group">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" autocomplete="current-password" required>
+                </div>
 
-        <label>Password:</label>
-        <input type="password" name="password" required>
+                <div class="auth-actions">
+                    <a href="{% url 'password_reset' %}">Forgot password?</a>
+                    <button class="auth-submit" type="submit">Sign in <span aria-hidden="true">&#8594;</span></button>
+                </div>
+            </form>
 
-        <br><br>
-
-        <button type="submit">Login</button>
-
-    </form>
-
-    <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
+            <p class="auth-switch">New to Messenger? <a href="{% url 'register' %}">Create an account</a></p>
+        </section>
+    </main>
 
 </body>
 </html>
