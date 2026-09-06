@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messenger</title>
+    
+    {% load static %}
+    <!-- Link to external stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="app">
+        <aside>
+            <header class="brand"><p class="eyebrow">Private messages</p><h1>Messenger</h1></header>
+            <div class="user-card"><div class="avatar">{% if profile.profile_picture %}<img src="{{ profile.profile_picture.url }}" alt="{{ request.user.username }} profile picture">{% else %}{{ request.user.username|first|upper }}{% endif %}</div><div><p class="user-name">{{ request.user.username }}</p><p class="status">Signed in</p></div></div>
+            <form class="profile-form" method="post" action="{% url 'profile_update' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="profile_picture" accept="image/*">
+                <textarea name="bio" placeholder="Short bio...">{{ profile.bio }}</textarea>
+                <button type="submit">Save profile</button>
+            </form>
+            <p class="section-label">People</p>
+            <div class="list" id="people-list">
+                {% for person in chat_users %}
+                    <button class="person" data-user-id="{{ person.id }}" data-username="{{ person.username }}" data-picture="{{ person.profile_picture_url }}"><span class="mini-avatar">{% if person.profile_picture_url %}<img src="{{ person.profile_picture_url }}" alt="">{% else %}{{ person.username|first|upper }}{% endif %}</span><span>{{ person.username }}</span></button>
+                {% empty %}<p class="status" style="padding: 12px;">Register another account to start chatting.</p>{% endfor %}
+            </div>
+            <p class="section-label">Your conversations</p>
+            <div class="list" id="conversation-list"><p class="status" style="padding: 12px;">Loading conversations...</p></div>
+            <a class="logout" href="{% url 'logout' %}">Log out</a>
+        </aside>
+        <main>
+            <header class="chat-header"><div class="avatar" id="chat-avatar">?</div><div><h2 id="chat-title">Select a person</h2><p id="chat-subtitle">Choose someone from the People list to begin.</p></div></header>
+            <section id="messages"><p class="empty">Your messages will appear here. Start a conversation from the left.</p></section>
+            <form class="composer" id="composer">
+                <input id="message-input" autocomplete="off" placeholder="Write a message..." disabled>
+                <button class="send" type="submit" disabled>Send</button>
+            </form>
+        </main>
+    </div>
+
+    <!-- Make current user ID available to JavaScript -->
+    <script>
+        window.currentUserId = {{ request.user.id }};
+    </script>
+
+    <!-- Link to external JavaScript files (in order) -->
+    <script src="{% static 'js/api.js' %}"></script>
+    <script src="{% static 'js/websocket.js' %}"></script>
+    <script src="{% static 'js/messenger.js' %}"></script>
+</body>
+</html>

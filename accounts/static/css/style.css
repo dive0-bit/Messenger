@@ -1,0 +1,396 @@
+/* ==========================================
+   MESSENGER APP - STYLESHEET
+   Fresh and easy to understand for beginners
+   ========================================== */
+
+/* Color System - Define colors once, use everywhere */
+:root {
+    --ink: #17202a;          /* Main text color */
+    --muted: #6d7885;        /* Secondary text color */
+    --line: #e7e3dc;         /* Border color */
+    --paper: #fbfaf7;        /* Background color */
+    --accent: #d94f35;       /* Primary action color */
+    --accent-dark: #a93624;  /* Dark accent for hover */
+    --bubble: #f1e7dc;       /* Message bubble background */
+}
+
+/* Reset default browser styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--ink);
+    background: #ece9e2;
+    font-family: Georgia, 'Times New Roman', serif;
+}
+
+/* Main app layout - uses CSS Grid */
+.app {
+    display: grid;
+    grid-template-columns: 330px minmax(0, 1fr);  /* Sidebar + Chat area */
+    height: 100vh;
+    max-width: 1500px;
+    margin: auto;
+    background: var(--paper);
+    box-shadow: 0 15px 50px rgba(40, 35, 25, .12);
+}
+
+/* Left sidebar */
+aside {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--line);
+    background: #f7f4ed;
+}
+
+/* App header/branding section */
+.brand {
+    padding: 28px 24px 22px;
+    border-bottom: 1px solid var(--line);
+}
+
+.eyebrow {
+    margin: 0 0 8px;
+    color: var(--accent);
+    font: 700 11px/1.2 Arial, sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Headings and paragraphs */
+h1, h2, p {
+    margin: 0;
+}
+
+h1 {
+    font-size: 32px;
+    line-height: 1;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+/* User profile card (top of sidebar) */
+.user-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--line);
+}
+
+/* Avatar circles */
+.avatar {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: white;
+    background: var(--accent);
+    font: 700 16px Arial, sans-serif;
+}
+
+.avatar img,
+.mini-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Profile update form */
+.profile-form {
+    padding: 0 24px 18px;
+    border-bottom: 1px solid var(--line);
+}
+
+.profile-form input[type=file] {
+    width: 100%;
+    margin: 8px 0;
+    font: 11px Arial, sans-serif;
+}
+
+.profile-form textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 7px;
+    border: 1px solid #d9d3c9;
+    resize: vertical;
+    font: 12px Arial, sans-serif;
+}
+
+.profile-form button {
+    padding: 7px 10px;
+    color: white;
+    border-radius: 4px;
+    background: var(--accent);
+    font: 700 11px Arial, sans-serif;
+}
+
+/* User name and status text */
+.user-name {
+    font-weight: bold;
+}
+
+.status {
+    margin-top: 3px;
+    color: var(--muted);
+    font: 12px Arial, sans-serif;
+}
+
+/* Section labels (People, Conversations) */
+.section-label {
+    padding: 22px 24px 10px;
+    color: var(--muted);
+    font: 700 11px Arial, sans-serif;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* Scrollable list container */
+.list {
+    overflow: auto;
+    padding: 0 12px 14px;
+}
+
+/* Reset button styles globally */
+button {
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+}
+
+/* Person and Conversation buttons */
+.person,
+.conversation {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 11px;
+    padding: 12px;
+    text-align: left;
+    background: transparent;
+    border-radius: 8px;
+}
+
+.person:hover,
+.conversation:hover,
+.conversation.active {
+    background: #ebe3d8;
+}
+
+/* Conversation row layout */
+.conversation-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.conversation-row .conversation {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Delete conversation button */
+.delete-conversation {
+    padding: 8px;
+    color: var(--muted);
+    background: transparent;
+    font: 700 16px Arial, sans-serif;
+}
+
+.delete-conversation:hover {
+    color: var(--accent-dark);
+}
+
+/* Small avatar for conversation list */
+.mini-avatar {
+    display: grid;
+    flex: 0 0 auto;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    color: var(--accent-dark);
+    background: #f0c8ba;
+    font: 700 13px Arial, sans-serif;
+}
+
+/* Text truncation for conversation names */
+.person span,
+.conversation-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.conversation-text strong,
+.conversation-text small {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.conversation-text small {
+    margin-top: 4px;
+    color: var(--muted);
+    font: 12px Arial, sans-serif;
+}
+
+/* Logout button */
+.logout {
+    margin: auto 24px 24px;
+    padding: 11px;
+    color: var(--accent-dark);
+    border: 1px solid #e6b8aa;
+    border-radius: 6px;
+    background: transparent;
+    text-align: center;
+    text-decoration: none;
+    font: 700 12px Arial, sans-serif;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+}
+
+/* Main chat area */
+main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+/* Chat header (title + status) */
+.chat-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 92px;
+    padding: 22px 32px;
+    border-bottom: 1px solid var(--line);
+}
+
+.chat-header p {
+    margin-top: 6px;
+    color: var(--muted);
+    font: 13px Arial, sans-serif;
+}
+
+/* Messages container */
+#messages {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+    overflow: auto;
+    padding: 28px clamp(20px, 6vw, 90px);
+    background: linear-gradient(135deg, #fbfaf7 0%, #f5efe6 100%);
+}
+
+/* Empty state message */
+.empty {
+    margin: auto;
+    max-width: 330px;
+    color: var(--muted);
+    text-align: center;
+    font: 14px/1.6 Arial, sans-serif;
+}
+
+/* Individual message styles */
+.message {
+    max-width: min(600px, 78%);
+    padding: 11px 14px;
+    border-radius: 4px 14px 14px 14px;
+    background: white;
+    box-shadow: 0 3px 14px rgba(65, 50, 35, .06);
+    font: 15px/1.45 Arial, sans-serif;
+}
+
+/* Messages sent by current user (align right, different color) */
+.message.mine {
+    align-self: flex-end;
+    border-radius: 14px 4px 14px 14px;
+    background: var(--bubble);
+}
+
+/* Message timestamp */
+.message time {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 10px;
+    text-align: right;
+}
+
+/* Message composer (input area) */
+.composer {
+    display: flex;
+    gap: 10px;
+    padding: 18px 32px;
+    border-top: 1px solid var(--line);
+    background: var(--paper);
+}
+
+.composer input {
+    flex: 1;
+    min-width: 0;
+    padding: 13px 15px;
+    border: 1px solid #d9d3c9;
+    border-radius: 5px;
+    background: white;
+    font: 15px Arial, sans-serif;
+}
+
+.composer input:focus {
+    outline: 2px solid #f0b5a5;
+    border-color: var(--accent);
+}
+
+/* Send button */
+.send {
+    padding: 0 22px;
+    color: white;
+    border-radius: 5px;
+    background: var(--accent);
+    font: 700 13px Arial, sans-serif;
+}
+
+.send:hover {
+    background: var(--accent-dark);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 720px) {
+    .app {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    aside {
+        max-height: 370px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .logout {
+        margin-top: 12px;
+    }
+
+    main {
+        min-height: 620px;
+    }
+
+    .chat-header {
+        padding: 18px 20px;
+    }
+
+    .composer {
+        padding: 14px 20px;
+    }
+}
