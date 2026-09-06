@@ -27,6 +27,170 @@ body {
     font-family: Georgia, 'Times New Roman', serif;
 }
 
+/* Authentication pages */
+.auth-shell {
+    display: grid;
+    grid-template-columns: minmax(280px, .85fr) minmax(340px, 460px);
+    gap: clamp(32px, 8vw, 120px);
+    align-items: center;
+    width: min(1080px, calc(100% - 48px));
+    min-height: 100vh;
+    margin: auto;
+    padding: 48px 0;
+}
+
+.auth-intro {
+    position: relative;
+    min-height: 440px;
+    padding: clamp(28px, 5vw, 64px);
+    overflow: hidden;
+    color: #fffaf5;
+    border-radius: 18px;
+    background: #263a36;
+    box-shadow: 0 24px 55px rgba(38, 58, 54, .22);
+}
+
+.auth-intro::after {
+    position: absolute;
+    right: -100px;
+    bottom: -120px;
+    width: 310px;
+    height: 310px;
+    border: 1px solid rgba(255, 250, 245, .22);
+    border-radius: 50%;
+    content: '';
+}
+
+.auth-intro .eyebrow {
+    color: #f2a57f;
+}
+
+.auth-intro h1 {
+    max-width: 440px;
+    margin-top: 70px;
+    color: #fffaf5;
+    font-size: clamp(36px, 5vw, 62px);
+    line-height: .98;
+}
+
+.auth-intro-text {
+    max-width: 330px;
+    margin-top: 22px;
+    color: rgba(255, 250, 245, .72);
+    font: 15px/1.6 Arial, sans-serif;
+}
+
+.auth-mark {
+    position: absolute;
+    right: 42px;
+    bottom: 36px;
+    display: grid;
+    width: 58px;
+    height: 58px;
+    place-items: center;
+    color: #263a36;
+    border-radius: 50%;
+    background: #f2a57f;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.auth-panel {
+    padding: 12px 0;
+}
+
+.auth-kicker {
+    margin-bottom: 10px;
+    color: var(--accent);
+    font: 700 11px Arial, sans-serif;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
+.auth-heading h2 {
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.05;
+}
+
+.auth-heading > p:last-child {
+    margin-top: 10px;
+    color: var(--muted);
+    font: 14px Arial, sans-serif;
+}
+
+.auth-form {
+    display: grid;
+    gap: 18px;
+    margin-top: 30px;
+}
+
+.field-group {
+    display: grid;
+    gap: 7px;
+}
+
+.field-group label {
+    color: var(--ink);
+    font: 700 12px Arial, sans-serif;
+}
+
+.field-group input {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    color: var(--ink);
+    border: 1px solid #d9d3c9;
+    border-radius: 6px;
+    background: #fff;
+    font: 15px Arial, sans-serif;
+}
+
+.field-group input:focus {
+    outline: 2px solid #f0b5a5;
+    border-color: var(--accent);
+}
+
+.form-error {
+    margin-top: 20px;
+    padding: 12px 14px;
+    color: #8b2e20;
+    border-left: 3px solid var(--accent);
+    background: #fbe9e4;
+    font: 13px/1.4 Arial, sans-serif;
+}
+
+.auth-submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 50px;
+    margin-top: 4px;
+    padding: 0 18px;
+    color: white;
+    border-radius: 6px;
+    background: var(--accent);
+    font: 700 13px Arial, sans-serif;
+}
+
+.auth-submit:hover {
+    background: var(--accent-dark);
+}
+
+.auth-submit span {
+    font-size: 20px;
+}
+
+.auth-switch {
+    margin-top: 24px;
+    color: var(--muted);
+    font: 13px Arial, sans-serif;
+}
+
+.auth-switch a {
+    color: var(--accent-dark);
+    font-weight: 700;
+}
+
 /* Main app layout - uses CSS Grid */
 .app {
     display: grid;
@@ -366,6 +530,42 @@ main {
 
 /* Mobile responsiveness */
 @media (max-width: 720px) {
+    .auth-shell {
+        display: block;
+        width: min(100% - 28px, 520px);
+        min-height: 100vh;
+        padding: 14px 0 28px;
+    }
+
+    .auth-intro {
+        min-height: 220px;
+        padding: 24px;
+        border-radius: 14px;
+    }
+
+    .auth-intro h1 {
+        max-width: 300px;
+        margin-top: 34px;
+        font-size: 35px;
+    }
+
+    .auth-intro-text {
+        max-width: 270px;
+        margin-top: 14px;
+        font-size: 13px;
+    }
+
+    .auth-mark {
+        right: 24px;
+        bottom: 24px;
+        width: 46px;
+        height: 46px;
+    }
+
+    .auth-panel {
+        padding: 34px 4px 0;
+    }
+
     .app {
         grid-template-columns: 1fr;
         height: auto;

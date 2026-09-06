@@ -3,41 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Create account | Messenger</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    
-    <h1>Create Account</h1>
 
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
+    <main class="auth-shell">
+        <section class="auth-intro">
+            <p class="eyebrow">Private messages</p>
+            <h1>Make space for better conversations.</h1>
+            <p class="auth-intro-text">A focused place to keep up with the people who matter, in real time.</p>
+            <div class="auth-mark" aria-hidden="true">M</div>
+        </section>
 
-    <form method="POST">
-        {% csrf_token %}
+        <section class="auth-panel" aria-labelledby="register-title">
+            <div class="auth-heading">
+                <p class="auth-kicker">Get started</p>
+                <h2 id="register-title">Create your account</h2>
+                <p>Join Messenger in less than a minute.</p>
+            </div>
 
-        <label>Username:</label>
-        <input type="text" name="username" required>
+            {% if error %}
+                <p class="form-error" role="alert">{{ error }}</p>
+            {% endif %}
 
-        <br><br>
+            <form class="auth-form" method="POST">
+                {% csrf_token %}
 
-        <label>Email:</label>
-        <input type="email" name="email" required>
+                <div class="field-group">
+                    <label for="username">Username</label>
+                    <input id="username" type="text" name="username" autocomplete="username" required>
+                </div>
 
-        <br><br>
+                <div class="field-group">
+                    <label for="email">Email address</label>
+                    <input id="email" type="email" name="email" autocomplete="email" required>
+                </div>
 
-        <label>Password:</label>
-        <input type="password" name="password" required>
+                <div class="field-group">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" autocomplete="new-password" required>
+                </div>
 
-        <br><br>
+                <div class="field-group">
+                    <label for="confirm-password">Confirm password</label>
+                    <input id="confirm-password" type="password" name="confirm_password" autocomplete="new-password" required>
+                </div>
 
-        <label>Confirm Password:</label>
-        <input type="password" name="confirm_password" required>
+                <button class="auth-submit" type="submit">Create account <span aria-hidden="true">&#8594;</span></button>
+            </form>
 
-        <br><br>
-
-        <button type="submit">Register</button>
-
-    </form>
+            <p class="auth-switch">Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+        </section>
+    </main>
 </body>
 </html>
