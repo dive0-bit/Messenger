@@ -59,7 +59,7 @@ function handleWebSocketClose(event) {
         return;
     }
     
-    // Connection closed normally - use REST API fallback
+    // Reconnect attempts run in websocket.js; REST remains available meanwhile.
     updateChatSubtitle('Realtime connection unavailable. Messages use REST fallback.');
 }
 
@@ -320,17 +320,15 @@ async function handleMessageSubmit(event) {
     
     try {
         // Try to send via WebSocket (real-time)
-        if (isWebSocketConnected()) {
-            sendWebSocketMessage(content);
+        if (isWebSocketConnected() && sendWebSocketMessage(content)) {
+            input.value = '';
         } else {
             // Fall back to REST API
             await sendMessage(activeConversationId, content);
             await loadAndRenderMessages();
             await loadAndRenderConversations();
+            input.value = '';
         }
-        
-        // Clear input
-        input.value = '';
         
     } catch (error) {
         alert('Failed to send message: ' + error.message);

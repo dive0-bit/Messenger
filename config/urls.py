@@ -33,3 +33,7 @@ urlpatterns = [
     path("", include("accounts.urls")),
     path("", include("chats.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + staticfiles_urlpatterns()
+
+# Keep uploaded profile pictures reachable on the single-instance demo service.
+if settings.DEBUG is False:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

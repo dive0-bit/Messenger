@@ -8,6 +8,10 @@
  */
 
 let chatSocket = null;
+let socketConversationId = null;
+let reconnectTimer = null;
+let reconnectAttempts = 0;
+let socketCallbacks = {};
 
 /**
  * Connect to WebSocket for a specific conversation
@@ -27,11 +31,22 @@ function connectWebSocket(
     onClose, 
     onError
 ) {
+    socketConversationId = conversationId;
+    socketCallbacks = { onMessage, onClose, onError };
+    reconnectAttempts = 0;
+    clearTimeout(reconnectTimer);
+    openWebSocket();
+    return true;
+}
+
+function openWebSocket() {
+    if (!socketConversationId) return;
+
     // Determine if we need ws:// or wss:// (secure)
     const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
     
     // Create WebSocket connection
-    const socketUrl = `${scheme}://${window.location.host}/ws/conversations/${conversationId}/`;
+    const socketUrl = `${scheme}://${window.location.host}/ws/conversations/${socketConversationId}/`;
     
     try {
         chatSocket = new WebSocket(socketUrl);
@@ -40,14 +55,15 @@ function connectWebSocket(
         chatSocket.onopen = () => {
             console.log('WebSocket connected');
             // Enable message input when connected
-            if (onMessage) onMessage({ type: 'open' });
+            reconnectAttempts = 0;
+            if (socketCallbacks.onMessage) socketCallbacks.onMessage({ type: 'open' });
         };
         
         // Called when server sends data
         chatSocket.onmessage = (event) => {
             try {
                 const payload = JSON.parse(event.data);
-                if (onMessage) onMessage(payload);
+                if (socketCallbacks.onMessage) socketCallbacks.onMessage(payload);
             } catch (error) {
                 console.error('Failed to parse WebSocket message:', error);
             }
@@ -56,22 +72,34 @@ function connectWebSocket(
         // Called when connection closes
         chatSocket.onclose = (event) => {
             console.log('WebSocket disconnected. Code:', event.code);
-            if (onClose) onClose(event);
+            if (socketCallbacks.onClose) socketCallbacks.onClose(event);
+            scheduleReconnect();
         };
         
         // Called when connection has an error
         chatSocket.onerror = (error) => {
             console.error('WebSocket error:', error);
-            if (onError) onError(error);
+            if (socketCallbacks.onError) socketCallbacks.onError(error);
         };
         
         return true;
         
     } catch (error) {
         console.error('Failed to create WebSocket:', error);
-        if (onError) onError(error);
+        if (socketCallbacks.onError) socketCallbacks.onError(error);
         return false;
     }
+}
+
+function scheduleReconnect() {
+    if (!socketConversationId || reconnectTimer) return;
+
+    const delay = Math.min(1000 * (2 ** reconnectAttempts), 10000);
+    reconnectAttempts += 1;
+    reconnectTimer = setTimeout(() => {
+        reconnectTimer = null;
+        openWebSocket();
+    }, delay);
 }
 
 /**
@@ -107,11 +135,15 @@ function sendWebSocketMessage(content) {
  * Call this when user switches conversations or logs out.
  */
 function closeWebSocket() {
-    if (chatSocket && chatSocket.readyState === WebSocket.OPEN) {
+    socketConversationId = null;
+    clearTimeout(reconnectTimer);
+    reconnectTimer = null;
+    reconnectAttempts = 0;
+    if (chatSocket && chatSocket.readyState !== WebSocket.CLOSED) {
         chatSocket.close();
-        chatSocket = null;
-        console.log('WebSocket closed');
     }
+    chatSocket = null;
+    console.log('WebSocket closed');
 }
 
 /**
