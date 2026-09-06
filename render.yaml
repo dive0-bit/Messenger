@@ -13,3 +13,13 @@ services:
         value: ".onrender.com"
       - key: CSRF_TRUSTED_ORIGINS
         value: "https://*.onrender.com"
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: messenger-redis
+          property: connectionString
+
+  - type: keyvalue
+    name: messenger-redis
+    plan: free
+    ipAllowList: []

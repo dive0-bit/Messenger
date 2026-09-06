@@ -4,5 +4,6 @@ djangorestframework-simplejwt==5.5.1
 Pillow==12.3.0
 python-dotenv==1.2.3
 channels==4.3.2
+channels-redis==4.3.0
 daphne==4.2.3
 whitenoise==6.9.0

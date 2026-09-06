@@ -56,4 +56,4 @@ This project is intended for local learning and portfolio demonstration. Product
 3. Render will use `render.yaml` and the included `Dockerfile`.
 4. After deployment, open the generated `https://*.onrender.com` URL and register a user.
 
-The included configuration is suitable for a portfolio demo. SQLite data and the in-memory channel layer are not persistent across production restarts or multiple instances. For a production deployment, use PostgreSQL and Redis.
+The included configuration creates a Render Redis Key Value service and uses it for WebSocket channel communication. SQLite data is still suitable only for a portfolio demo; use PostgreSQL for persistent production data.
