@@ -39,6 +39,12 @@ body {
     padding: 48px 0;
 }
 
+.auth-shell-single {
+    display: flex;
+    justify-content: center;
+    max-width: 620px;
+}
+
 .auth-intro {
     position: relative;
     min-height: 440px;
@@ -97,6 +103,34 @@ body {
 
 .auth-panel {
     padding: 12px 0;
+}
+
+.auth-panel-centered {
+    width: min(100%, 480px);
+}
+
+.auth-panel-centered h1 {
+    font-size: clamp(30px, 5vw, 46px);
+    line-height: 1.05;
+}
+
+.reset-link-box {
+    display: grid;
+    gap: 14px;
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+}
+
+.reset-link-box p {
+    color: var(--muted);
+    font: 13px/1.5 Arial, sans-serif;
+}
+
+.reset-link-box .auth-submit {
+    text-decoration: none;
 }
 
 .auth-kicker {

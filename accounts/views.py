@@ -25,7 +25,9 @@ class DevelopmentPasswordResetView(auth_views.PasswordResetView):
         users = list(form.get_users(form.cleaned_data["email"]))
         response = super().form_valid(form)
 
-        if settings.DEBUG and users:
+        # The demo uses Django's console email backend, so expose the generated
+        # link on the same user's confirmation page instead of requiring inbox access.
+        if users:
             user = users[0]
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
@@ -41,11 +43,10 @@ class DevelopmentPasswordResetView(auth_views.PasswordResetView):
 class DevelopmentPasswordResetDoneView(auth_views.PasswordResetDoneView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if settings.DEBUG:
-            context["development_reset_link"] = self.request.session.pop(
-                "development_reset_link",
-                None,
-            )
+        context["development_reset_link"] = self.request.session.pop(
+            "development_reset_link",
+            None,
+        )
         return context
 
 
