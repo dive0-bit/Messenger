@@ -1,0 +1,9 @@
+.git
+.gitignore
+.env
+chat
+__pycache__
+*.pyc
+db.sqlite3
+profile_pictures/*
+*.zip

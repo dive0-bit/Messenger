@@ -48,3 +48,12 @@ Then open `http://YOUR_LAPTOP_IP:8000/` on the other device. Add the laptop IP t
 - `requirements.txt`: Python dependencies
 
 This project is intended for local learning and portfolio demonstration. Production deployment requires secure secrets, a production database, HTTPS, and a persistent channel layer.
+
+## Deploy on Render with Docker
+
+1. Push the repository to GitHub.
+2. In Render, choose **New > Blueprint** and select this repository.
+3. Render will use `render.yaml` and the included `Dockerfile`.
+4. After deployment, open the generated `https://*.onrender.com` URL and register a user.
+
+The included configuration is suitable for a portfolio demo. SQLite data and the in-memory channel layer are not persistent across production restarts or multiple instances. For a production deployment, use PostgreSQL and Redis.

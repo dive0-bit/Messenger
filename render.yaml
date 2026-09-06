@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: messenger
+    runtime: docker
+    plan: free
+    healthCheckPath: /login/
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://*.onrender.com"
